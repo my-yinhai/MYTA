@@ -1,0 +1,70 @@
+ta404:
+  database:
+    mybatis:
+      datasourceList: ta404ds
+      ta404ds:
+        page-dialect: oracle #分页方言oracle,mysql,mariadb,sqlite,hsqldb,postgresql,db2,sqlserver,informix,h2,sqlserver2012
+        jdbcUrl:  jdbc:oracle:thin:@localhost:1521:orcl
+        driverClassName: oracle.jdbc.driver.OracleDriver
+        username: myta404
+        password: myta404
+        minimumIdle: 5
+        mappers:
+          - com.yinhai.ta404.module.mybatis.mapper
+          - com.yinhai.ta404.module.**.mapper.read
+          - com.yinhai.ta404.module.**.mapper.write
+          - com.yinhai.ta404.component.**.mapper.read
+          - com.yinhai.ta404.component.**.mapper.write
+          - com.yinhai.ta404demo.mapper.**
+        type-aliases-package:
+          - com.yinhai.ta404.component.**.entity
+        mapper-locations:
+          - classpath*:mapper/read/*.xml
+          - classpath*:mapper/write/*.xml
+        transaction: #用于扩展事务管理器属性
+          enforceReadOnly: true #表示DataSourceTrasactionManager支持只读事务，某些数据库不支持此属性，需要关闭
+      #        sqlsessionfactory: #用于扩展sqlSessionFactory属性
+    transaction:
+      log: true
+      #启动事务类检测，只检测以下包路径开头的类
+      packageStartCheck: com.yinhai
+  modules:
+    security:
+      permit-urls:
+        - /taresourceurl/*
+    cluster:
+      enable: false
+    cache:
+      register: false
+      mode: ehcache
+    distribute:
+      startLcn: false
+    cas:
+      isOpenSso: false #是否启用单点登录，启用单点同时需关闭普通通过spring security登录的登录方式 也即修改isOpenSecuirtyManagemer属性为false
+    elasticjob:
+      enable: false
+      zk:
+        serverLists: 192.168.17.30:2182
+        namespace: ta404-job
+      job:
+        statLogJob:
+          cron: 0/5 * * * * ?
+          shardingTotalCount: 1
+          shardingItemParameters: 0=A
+          disabled: true
+          overwrite: true
+          description: 登录人数统计
+        #          eventTraceRdbDataSource: ta404ds
+        freeBusyJob:
+          cron: 0 */1 * * * ?
+          shardingTotalCount: 1
+          streamingProcess: false
+          disabled: true
+          overwrite: true
+          description: 闲忙任务
+#          eventTraceRdbDataSource: ta404ds
+# 统一设置日期格式
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

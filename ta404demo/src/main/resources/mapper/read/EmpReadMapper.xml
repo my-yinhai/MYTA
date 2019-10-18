@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinhai.ta404demo.mapper.read.EmpReadMapper">
+
+    <resultMap type="com.yinhai.ta404demo.entity.EmpPo" id="EmpMap">
+                    <result property="empno" column="EMPNO" jdbcType="INTEGER"/>
+                    <result property="ename" column="ENAME" jdbcType="VARCHAR"/>
+                    <result property="job" column="JOB" jdbcType="VARCHAR"/>
+                    <result property="mgr" column="MGR" jdbcType="INTEGER"/>
+                    <result property="hiredate" column="HIREDATE" jdbcType="TIMESTAMP"/>
+                    <result property="sal" column="SAL" jdbcType="INTEGER"/>
+                    <result property="comm" column="COMM" jdbcType="INTEGER"/>
+                    <result property="deptno" column="DEPTNO" jdbcType="INTEGER"/>
+                    <result property="gender" column="GENDER" jdbcType="VARCHAR"/>
+            </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EmpMap">
+        select
+          EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO, GENDER
+        from PX404.EMP
+        where EMPNO = #{empno,jdbcType=INTEGER}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EmpMap">
+        select
+        EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO, GENDER
+        from PX404.EMP
+        <where>
+                            <if test="empno != null">
+                    and EMPNO = #{empno,jdbcType=INTEGER}
+                </if>
+                            <if test="ename != null and ename != ''">
+                    and ENAME = #{ename,jdbcType=VARCHAR}
+                </if>
+                            <if test="job != null and job != ''">
+                    and JOB = #{job,jdbcType=VARCHAR}
+                </if>
+                            <if test="mgr != null">
+                    and MGR = #{mgr,jdbcType=INTEGER}
+                </if>
+                            <if test="hiredate != null">
+                    and HIREDATE = #{hiredate,jdbcType=TIMESTAMP}
+                </if>
+                            <if test="sal != null">
+                    and SAL = #{sal,jdbcType=INTEGER}
+                </if>
+                            <if test="comm != null">
+                    and COMM = #{comm,jdbcType=INTEGER}
+                </if>
+                            <if test="deptno != null">
+                    and DEPTNO = #{deptno,jdbcType=INTEGER}
+                </if>
+                            <if test="gender != null and gender != ''">
+                    and GENDER = #{gender,jdbcType=VARCHAR}
+                </if>
+                    </where>
+    </select>
+</mapper>
