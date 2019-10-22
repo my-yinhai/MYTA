@@ -24,6 +24,7 @@ public class Ta404demoApplication {
         application.addListeners(new TaConfigerListener());
 //        application.setBannerMode(Banner.Mode.OFF);
         try {
+            aaa;
             application.run(args);
         } catch (Exception e) {
             e.printStackTrace();
