@@ -26,6 +26,7 @@ public class Ta404demoApplication {
         try {
             aaa;
             aaa;
+            aaa;
             application.run(args);
         } catch (Exception e) {
             e.printStackTrace();
