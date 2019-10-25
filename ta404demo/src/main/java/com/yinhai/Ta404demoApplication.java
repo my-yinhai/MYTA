@@ -25,6 +25,7 @@ public class Ta404demoApplication {
 //        application.setBannerMode(Banner.Mode.OFF);
         try {
             aaa;
+            aaa;
             application.run(args);
         } catch (Exception e) {
             e.printStackTrace();
